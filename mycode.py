@@ -32,21 +32,24 @@ class Data:
         drop_set = set() #나중에 제거해야할 feature 이름저장하는 빈 집합
         corr_matrix = x.corr().abs() #x의 모든 feature간의 피어슨 상관계수 계산후 절대값
         for i, col in enumerate(corr_matrix.columns): #index번호 i와 열이름 순서대로 추출
-            for j, col2 in enumerate(corr_matrix.columns):
-                if i < j: #mask, 대칭행렬이므로 상삼각행렬만 계산
-                    corr_value = corr_matrix.iloc[i, j]
-                    if corr_value >= 0.9:
-                        #iloc으로 index번호로 접근, loc은 행 열 이름으로 접근
-                        drop_set.add(col2)
+            if col not in drop_set:
+                for j, col2 in enumerate(corr_matrix.columns):
+                    if i < j: #mask, 대칭행렬이므로 상삼각행렬만 계산
+                        corr_value = corr_matrix.iloc[i, j]
+                        if corr_value >= 0.9:
+                            #iloc으로 index번호로 접근, loc은 행 열 이름으로 접근
+                            if x[col].var() >= x[col2].var():
+                                
+                                drop_set.add(col2)
+                            else:
+                                drop_set.add(col)
         
-        print(drop_set)
+        print("remove feature: ", drop_set)
+        print(len(drop_set))
         x = x.drop(columns= list(drop_set)) #set으로 저장한 결과를 list반환후 col 이름으로 제공
         return x
                         
 
-
-
-    
 class baysian:
     def __init__(self):
         pass
