@@ -81,10 +81,11 @@ class baysian:
         return mean_y1, std_y1, mean_y0, std_y0
     
     def gaussian_prob(self, x, mean, std):
-        x = np.array(x, dtype=float)
+        x = np.array(x, dtype=float) #x를 numpy로 변환후 float으로 설정.
         exponent = np.exp(-((x - mean) ** 2) / (2 * std ** 2))
         prob = (1 / (np.sqrt(2 * np.pi) * std)) * exponent
         return np.where(np.isnan(prob), 1e-12, prob)  # 🔹 NaN 방지
+    #np.where(condition, A, B) 조건 따라 값 선택후 배열 반환 true면 1e-12, 아니면 prob
     
 
     def predict(self, x_train, y_train, new_x):
