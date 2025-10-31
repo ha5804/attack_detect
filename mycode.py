@@ -27,15 +27,6 @@ class Data:
         df = df.dropna()
         return df
     
-    def pca(self, df, k = 1):
-        x = df - df.mean(axis = 0)
-        cov_matrix = np.cov(x)
-        eigen_val, eigen_vec = np.linalg.eig(cov_matrix)
-        idx = np.argsort(eigen_val)[::-1]
-        eigen_vec = eigen_vec[:, idx]
-        p_c = eigen_vec[: , :k]
-        x_pca = np.dot(x, p_c)
-        return x_pca
 
     def pearson(self, x):
         drop_set = set() #나중에 제거해야할 feature 이름저장하는 빈 집합
@@ -113,6 +104,8 @@ class baysian:
 
         y_hat = (log_post_y1 > log_post_y0).astype(int)
         return y_hat
+
+
 
 class eval:
     def __init__(self):
